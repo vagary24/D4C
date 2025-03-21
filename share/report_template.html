@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vulnerability Report</title>
+<style>
+    /* 通用滚动条样式 */
+    ::-webkit-scrollbar {
+        width: 4px; /* 滚动条宽度 */
+    }
+
+    /* 滚动条轨道样式 */
+    ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1); /* 滚动条轨道背景色 */
+        border-radius: 2px; /* 滚动条轨道圆角 */
+    }
+
+    /* 滚动条滑块样式 */
+    ::-webkit-scrollbar-thumb {
+        background: rgba(212, 212, 212, 0.5); /* 滚动条滑块背景色 */
+        border-radius: 2px; /* 滚动条滑块圆角 */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgb(212, 212, 212); /* 滚动条滑块悬停背景色 */
+    }
+
+    body {
+        font-family: 'Arial', sans-serif;
+        /* background-color: rgba(233, 233, 233, 0.5); */
+        /* background-color: rgba(233, 233, 233, 1); */
+        background-color: rgba(255, 255, 255, 1);
+        margin: 0;
+        padding: 0;
+    }
+    .header {
+        /* background-color: rgba(255, 255, 255, 0.5); */
+        color: #333333;
+        padding: 0px;
+        text-align: center;
+    }
+    .container {
+        width: 90%;
+        margin: auto;
+        overflow: hidden;
+    }
+    .filter-section {
+        background-color: #fff;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        border: 1px solid #ddd;
+    }
+
+    .filter-section label {
+        margin-right: 5px;
+    }
+
+    .filter-section button,
+    .filter-section input,
+    .filter-section select {
+        border-radius: 5px;
+        margin-right: 10px;
+        border: 1px solid rgba(45, 45, 56, 1);
+        width: 10%;
+    }
+
+    .vulnerability-list {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    .vulnerability-item {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+
+    .vulnerability-name {
+        cursor: pointer;
+    }
+    /* .vulnerability-item:hover {
+        background-color: #e9e9e9;
+    } */
+    .vulnerability-details {
+        display: none;
+        margin-top: 10px;
+        /* padding: 10px; */
+        /* border: 1px solid #ddd; */
+        /* background-color: #fff; */
+        /* pointer-events: none; */
+    }
+    .ip-box {
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        /* background-color: #fff; */
+        cursor: pointer;
+    }
+    .ip-box:hover {
+        background-color: #e9e9e9;
+    }
+    /* .pie-chart-container {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+    }
+    .pie-chart {
+        width: 40%;
+    } */
+    .pie-chart-container {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        /* background-color: #fff; */
+        margin-bottom: 20px;
+    }
+
+    .pie-chart {
+        display: flexbox;
+        max-width: 400px; /* 设置饼状图的最大宽度 */
+        max-height: 400px; /* 设置饼状图的最大高度 */
+        /* width: 100%; 让饼状图的宽度充满其容器 */
+        height: auto; /* 高度自动调整以保持宽高比 */
+    }
+    .stats {
+        width: calc(100% - 400px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /* background-color: #fff; */
+        /* padding: 20px; */
+    }
+    .stats h3 {
+        margin: 0;
+        margin: 10px 0px;
+        text-align: center;
+    }
+    .stats ul {
+        list-style: none;
+        padding: 0;
+    }
+    .stats li {
+        margin-bottom: 5px;
+    }
+    .vulnerability-stats-box {
+        display: flex;
+        flex-direction: column; /* 子元素垂直排列 */
+        justify-content: flex-start; /* 子元素靠左对齐 */
+        align-items: stretch; /* 子元素填充容器的宽度 */
+        padding: 10px;
+        background-color: #f9f9f9; /* 背景颜色，根据需要调整 */
+        border: 1px solid #ddd; /* 边框，根据需要调整 */
+        border-radius: 5px; /* 边框圆角，根据需要调整 */
+        overflow-y: auto; /* 超出部分显示滚动条 */
+        /* flex-grow: 1; */
+    }
+    .code-box {
+        font-family: 'Courier New', Courier, monospace; /* 设置等宽字体 */
+        background-color: #f4f4f4; /* 背景颜色 */
+        border: 1px solid #ddd; /* 边框 */
+        border-left: 3px solid #f39c12; /* 左边边框颜色，可以自定义 */
+        padding: 15px; /* 内边距 */
+        max-height: 300px;
+        overflow-y: auto; /* 水平滚动条 */
+        text-align: left; /* 设置文本左对齐 */
+    }
+
+    .code-box pre {
+        display: block; /* 显示为块级元素 */
+        margin: 0; /* 移除外边距 */
+        white-space: pre-wrap; /* 保持空白符序列，正常换行 */
+    }
+
+    .code-box code {
+        font-family: 'Courier New', Courier, monospace; /* 设置等宽字体 */
+        color: #333; /* 代码文本颜色 */
+        word-wrap: break-word; /* 长单词或URL断行 */
+        display: block; /* 使代码块显示 */
+        text-align: left; /* 设置文本左对齐 */
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Vulnerability Report</h1>
+</div>
+
+<div class="container">
+    <div class="pie-chart-container">
+        <div class="stats">
+            <h3>Total Vulnerabilities: <span id="total-vulnerabilities">0</span></h3>
+            <div class="vulnerability-stats-box">
+                <ul id="vulnerability-stats">
+                    <!-- Vulnerability stats will be added here -->
+                </ul>
+            </div>
+        </div>
+        <canvas class="pie-chart"></canvas>
+    </div>
+    <div class="filter-section">
+        <label for="filter-name">Filter by Name:</label>
+        <input type="text" id="filter-name" onkeyup="filterVulnerabilities()" placeholder="Vulnerability Name...">
+        <label for="filter-ip">Filter by IP:</label>
+        <input type="text" id="filter-ip" onkeyup="filterVulnerabilities()" placeholder="IP Address...">
+        <label for="filter-tag">Filter by Tag:</label>
+        <input type="text" id="filter-tag" onkeyup="filterVulnerabilities()" placeholder="Tag...">
+        <label for="filter-severity">Filter by Severity:</label>
+        <select id="filter-severity" onchange="filterVulnerabilities()">
+            <option value="">Any</option>
+            <option value="critical">Critical</option>
+            <option value="high">High</option>
+            <!-- Add other severities as needed -->
+        </select>
+        <label for="sort-order">Sort by:</label>
+        <select id="sort-order" onchange="sortVulnerabilities()">
+            <option value="name">Name</option>
+            <option value="severity">Severity</option>
+            <option value="count">Count</option>
+        </select>
+    </div>
+    <div id="vulnerability-list" class="vulnerability-list"></div>
+</div>
+
+<script src="chart.js"></script>
+
+<script>
+    // Your data here
+    const vulnerabilitiesData = '{{myjson}}';
+    // Function to render vulnerabilities
+    function renderVulnerabilities(data) {
+        const list = document.getElementById('vulnerability-list');
+        list.innerHTML = '';
+        let totalTargets = 0;
+        for (const [name, details] of Object.entries(data)) {
+            const item = document.createElement('div');
+            item.className = 'vulnerability-item';
+            item.innerHTML = `
+            <div>
+                <div class="vulnerability-name" onclick="toggleVulnerabilityDetails(this)">${name}</div>
+                <div class="vulnerability-details" style="display: none;">
+                    <h3>Info</h3>
+                    <p>Author: ${details.info.author}</p>
+                    <p>Severity: ${details.info.severity}</p>
+                    <p>Description: ${details.info.description}</p>
+                    <p>Reference: ${details.info.reference}</p>
+                    ${Object.entries(details.info.metadata).map(([key, value]) => `
+                        <p>${key}: ${value}</p>
+                    `).join('')}
+                    <p>Tags: ${details.info.tags}</p>
+                    <h3>Targets</h3>
+                    ${details.targets.map(target => {
+                        totalTargets += 1;
+                        return `
+                            <div>
+                                <div class = "ip-box" onclick="toggleVulnerabilityDetails(this)">
+                                    <strong>IP/Domain:</strong> ${target.target}
+                                </div>
+                                <div class="http-details" style="display: none;">
+                                    ${target.req_resp.map(req => `
+                                        <div>
+                                            <p>Request:</p>
+                                            <div class="code-box">
+                                                <pre><code>${req.req}</code></pre>
+                                            </div>
+                                            <p>Response:</p>
+                                            <div class="code-box">
+                                                <pre><code>${req.resp}</code></pre>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>`;
+                    }).join('')}
+                    </div>
+                </div>
+            </div>
+            `;
+            list.appendChild(item);
+        }
+        document.getElementById('total-vulnerabilities').textContent = totalTargets;
+    }
+
+    // Function to toggle the display of vulnerability details
+    function toggleVulnerabilityDetails(element) {
+        const details = element.nextElementSibling;
+        if (details.style.display === 'none') {
+            details.style.display = 'block';
+        } else {
+            details.style.display = 'none';
+        }
+    }
+
+    // Function to filter vulnerabilities
+    function filterVulnerabilities() {
+        const nameFilter = document.getElementById('filter-name').value.toLowerCase();
+        const ipFilter = document.getElementById('filter-ip').value.toLowerCase();
+        const tagFilter = document.getElementById('filter-tag').value.toLowerCase();
+        const severityFilter = document.getElementById('filter-severity').value;
+
+        const filteredData = Object.entries(vulnerabilitiesData).filter(([name, details]) => {
+            const matchesName = !nameFilter || name.toLowerCase().includes(nameFilter);
+            const matchesIP = !ipFilter || Object.keys(details.target).some(ip => ip.toLowerCase().includes(ipFilter));
+            const matchesTag = !tagFilter || details.info.tags.some(tag => tag.toLowerCase().includes(tagFilter));
+            const matchesSeverity = !severityFilter || details.info.severity.toLowerCase() === severityFilter.toLowerCase();
+            return matchesName && matchesIP && matchesTag && matchesSeverity;
+        });
+
+        renderVulnerabilities(Object.fromEntries(filteredData));
+    }
+
+    // Function to sort vulnerabilities
+    function sortVulnerabilities() {
+        const sortKey = document.getElementById('sort-order').value;
+        const sortedData = Object.entries(vulnerabilitiesData).sort((a, b) => {
+            const valA = a[1].info[sortKey];
+            const valB = b[1].info[sortKey];
+            if (sortKey === 'count') {
+                return b[1].target[a[0]].length - a[1].target[a[0]].length;
+            }
+            return valA.localeCompare(valB);
+        });
+        renderVulnerabilities(Object.fromEntries(sortedData));
+    }
+
+    // Function to draw pie chart
+    function drawPieChart(data) {
+        const ctx = document.querySelector('canvas').getContext('2d');
+        const labels = [];
+        const dataPoints = [];
+        const targetCounts = {};
+
+        // 遍历数据并构建标签和数据点
+        Object.entries(data).forEach(([name, details]) => {
+            const targetCount = details.targets.length; // 获取targets数组的长度
+            labels.push(name);
+            dataPoints.push(targetCount);
+            targetCounts[name] = targetCount;
+        });
+
+        // 将目标统计信息显示在页面上
+        document.getElementById('vulnerability-stats').innerHTML = labels.map(name => {
+            return `<li>${name}: ${targetCounts[name]} target(s)</li>`;
+        }).join('');
+
+        // 创建饼图
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Vulnerability Count',
+                    data: dataPoints,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                }
+            }
+        });
+    }
+
+    // Initial rendering
+    renderVulnerabilities(vulnerabilitiesData);
+    drawPieChart(vulnerabilitiesData);
+</script>
+
+</body> </html>

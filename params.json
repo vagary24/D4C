@@ -1,0 +1,12 @@
+{
+  "threadings": 15,
+  "log_lever": "info",
+  "proxy": false,
+  "save_tmpfile": false,
+  "send_email": false,
+  "autoscan": true,
+  "outputtarget": true,
+  "output_html_report": true,
+  "file": "F:\\桌面\\CTF\\工具包\\2024HW漏洞\\D4C\\iptest.txt",
+  "nuclei": []
+}

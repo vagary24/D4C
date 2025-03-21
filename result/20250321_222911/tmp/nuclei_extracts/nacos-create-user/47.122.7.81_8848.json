@@ -1,0 +1,11 @@
+{
+    "http://47.122.7.81:8848": [
+        {
+            "payload": {
+                "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYWNvcyIsImV4cCI6OTk5OTk5OTk5OTl9.-isk56R8NfioHVYmpj4oz92nUteNBCN3HRd0-Hfk76g"
+            },
+            "extra_info": []
+        }
+    ],
+    "id": "nacos-create-user"
+}

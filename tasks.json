@@ -1,0 +1,17 @@
+{
+    "taskname":"测试10_16_12_27",
+    "pocTasks":[],
+    "nucleiTasks":[
+        {
+            "targetFile":"F:\\桌面\\CTF\\工具包\\2024HW漏洞\\2024HWPOC_SCAN-main - 副本\\iptest.txt",
+            "nucleiFile":"F:\\桌面\\CTF\\工具包\\2024HW漏洞\\2024HWPOC_SCAN-main - 副本\\template\\nacos\\nacos_defult_secretkey.yaml",
+            "output":""
+        },{
+            "targetFile":"F:\\桌面\\CTF\\工具包\\2024HW漏洞\\2024HWPOC_SCAN-main - 副本\\iptest.txt",
+            "nucleiFile":"F:\\桌面\\CTF\\工具包\\2024HW漏洞\\2024HWPOC_SCAN-main - 副本\\template\\nacos\\nacos_login2.yaml",
+            "output":""
+        }
+    ]
+}
+    
+    
